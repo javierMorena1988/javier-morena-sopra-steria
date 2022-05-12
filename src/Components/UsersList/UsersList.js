@@ -1,22 +1,45 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import { Outlet, Link } from 'react-router-dom'
+import axios from 'axios'
 
-import { Outlet, Link, useParams } from 'react-router-dom'
+const UsersList = () => {
+    const [data, getData] = useState([])
 
-export default function UsersList() {
-    const { name } = useParams()
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://reqres.in/api/users')
+
+                getData(response.data)
+            }
+            catch (error){
+                console.error(error.message)
+            }
+        }
+        fetchData()
+    }, [])
+
+
     return (
         <div>
             <h1>Listado de Usuarios</h1>
-            {name}
+            {/* {name} */}
+            <div className='listado'>
+                <ul>
+                    {data.data?.map(user => { 
+                        return(
+                            <li key={user.id}>
+                                <span>{user.name}</span>
+                            </li>
+                        )})
+                    }
+                </ul>
+            </div>
             <Link to='details'>Ir a los detalles</Link>
             <Outlet />
         </div> 
     )
 }
 
- // Este name viene del /users-list/:name
-  // Con esta info, podemos usarlo para llamar a una API y obtener
-  // información
-
-  // Tiene que ser details sin '/' para que sea una ruta relativa
-  // y conserve lo anterior
+export default UsersList

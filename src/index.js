@@ -6,17 +6,15 @@ import App from './App'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 
-import { configureStore } from 'redux'
-
-const store = configureStore()
+import store from './redux/store'
 
 render(
   <Provider store={store}>
     <BrowserRouter>
       <App />
-    </BrowserRouter>
+    </BrowserRouter>,
   </Provider>,
   document.getElementById('root')
 )
 
-// https://www.youtube.com/watch?v=DYtYyFOfpBY 15:44
+// https://www.youtube.com/watch?v=DYtYyFOfpBY 18:33
